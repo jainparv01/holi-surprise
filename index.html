@@ -327,17 +327,18 @@
     </ul>
 </section>
 
+<!-- ✅ Secret Reply Box -->
+<div class="reply-box" id="replyBox">
+    <form id="replyForm">
+        <input type="text" name="message" id="replyInput" placeholder="Dil se jo aaye, likh do...💭" required>
+        <button type="submit">Submit</button>
+    </form>
+</div>
 
-        <!-- ✅ Secret Reply Box -->
-        <div class="reply-box" id="replyBox">
-            <form action="https://formsubmit.co/jainparv1106@gmail.com" method="POST" onsubmit="showResponseMessage(event)">
-                <input type="text" name="message" id="replyInput" placeholder="Dil se jo aaye, likh do...💭" required>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-
-        <div class="secret-reply" id="secretReply"></div>
-    </div>
+<!-- ✅ Success Message -->
+<div class="secret-reply" id="successMessage" style="display: none; color: #28a745; font-weight: bold; margin-top: 10px;">
+    🎉 Reply Sent Successfully!
+</div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -355,18 +356,18 @@
                 }, { once: true }); // ✅ Sirf ek baar click hone par chale
             });
         });
-
+    
         window.addEventListener("scroll", function () {
-    let videoBG = document.getElementById("videoBG");
-
-    if (window.scrollY > 200) { // ✅ Show after scrolling 200px
-        videoBG.style.opacity = "1";
-        videoBG.style.display = "block";  
-    } else {
-        videoBG.style.opacity = "0";
-        videoBG.style.display = "none";  
-    }
-});
+            let videoBG = document.getElementById("videoBG");
+    
+            if (window.scrollY > 200) { // ✅ Show after scrolling 200px
+                videoBG.style.opacity = "1";
+                videoBG.style.display = "block";  
+            } else {
+                videoBG.style.opacity = "0";
+                videoBG.style.display = "none";  
+            }
+        });
     
         function showMessage() {
             let messageBox = document.getElementById("message");
@@ -398,11 +399,10 @@
             setTimeout(() => {
                 document.getElementById("replyBox").style.display = "block";
             }, delay + 500);
-
+    
             setTimeout(() => {
-    document.getElementById("revealButtons").style.display = "block"; // ✅ Dono buttons ek saath dikhana
-}, delay + 1000);
-
+                document.getElementById("revealButtons").style.display = "block"; // ✅ Dono buttons ek saath dikhana
+            }, delay + 1000);
         }
     
         function typeWriter(elementId, text, speed) {
@@ -419,96 +419,87 @@
             }
             type();
         }
-    
-        function showReply() {
-            let reply = document.getElementById("replyInput").value;
-            document.getElementById("secretReply").innerText = `💌 Your Reply: "${reply}"`;
-            document.getElementById("secretReply").style.display = "block";
-    
-            // ✅ Email pe reply bhejne ka function bhi yaha call kar diya
-            sendReplyToEmail(reply);
-        }
-        function showStory() {
-    document.getElementById("storySection").style.display = "block"; // ✅ Kahani dikhegi
 
-    let storyLines = [
-    "Ek baar ki baat hai, do dost the jo alag-alag jagah rehte the,", 
-    "par unki dosti ekdum solid thi, Bina roz baat kiye bhi,ek dusre ko samajhne wale dost",
-    "Holi ka tyohar aaya, aur dono ke mann me ek hi sawaal", 
-    "Is baar Holi pe kuch special hoga ya sirf messages exchange honge?",
-    "Ek dost ne socha , Agar saath nahi khel sakte, toh kya Holi ka maza kam ho jayega?",
-    "Nahi! Kyunki Holi sirf rang lagane ka nahi, yaadon ka tyohar bhi hai",
-    "Phir ek dost ne ek chhota sa surprise plan kiya",
-    "Koi rang, koi pichkari nahi… bas ek chhota sa gesture jo yaad rahe",
-    "Ek surprise jo virtual ho, par dil se connected ho",
-    "Jab usne woh surprise bheja, toh pehle toh dusra dost Yeh kya hai? soch kar confuse ho gaya",
-    "Par jaise hi usne webpage open kiya",
-    "🎶 Background mai music baj raha tha",
-    "Rang quietly animate ho rahe the",
-    "Aur ek ek karke likhi gayi thi woh yaadein, woh masti, woh dosti",
-    "Ek pal ke liye sab kuch ruk gaya",
-    "Ek dum se woh Holi yaad aayi… woh rang bharne wali masti", 
-    "woh hassi, woh chhoti-chhoti taang kheechna",
-    "Aur us din, bina kisi rang ke bhi, dosti ke asli rang mehsoos ho rahe the",
-    "Holi toh har saal aati hai, par kuch yaadein hamesha ke liye rehti hain 💖🎭"
-    ];
+document.getElementById("replyForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // ✅ Form submit hone se roko
 
-    for (let i = 0; i < storyLines.length; i++) {
-        setTimeout(() => {
-            document.getElementById(`storyLine${i + 1}`).innerText = storyLines[i];
-        }, i * 1000); // ✅ Ek-ek karke lines add hongi (1 sec gap)
+    let replyText = document.getElementById("replyInput").value;
+    let successMessage = document.getElementById("successMessage");
+
+    if (replyText.trim() === "") {
+        alert("❌ Please enter a message before submitting!");
+        return;
     }
-}
 
+    // ✅ Success message show karega
+    successMessage.innerHTML = "⌛ Submitting response... Please wait!";
+    successMessage.style.display = "block";
 
-function showFavThings() {
-    document.getElementById("favThingsSection").style.display = "block"; // ✅ 5 Cheezein dikhega
-}
+    // ✅ AJAX request se form submit karega
+    fetch("https://formsubmit.co/ajax/jainparv1106@gmail.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: replyText })
+    })
+    .then(response => response.json())
+    .then(data => {
+        successMessage.innerHTML = "🎉 Reply Sent Successfully!";
+    })
+    .catch(error => {
+        successMessage.innerHTML = "❌ Error! Please try again.";
+    });
 
+    // ✅ Reply ko localStorage me save karega
+    localStorage.setItem("lastReply", replyText);
+});
+
+// ✅ Page reload hone ke baad bhi reply dikhana
+window.onload = function() {
+    let savedReply = localStorage.getItem("lastReply");
+    if (savedReply) {
+        document.getElementById("successMessage").innerHTML = `💌 Tumhara Last Reply: <strong>${savedReply}</strong>`;
+        document.getElementById("successMessage").style.display = "block";
+    }
+};
     
-        // function sendReplyToEmail(reply) {
-        //     if (reply.trim() === "") {
-        //         alert("Please write something! 😊");
-        //         return;
-        //     }
+        function showStory() {
+            document.getElementById("storySection").style.display = "block"; // ✅ Kahani dikhegi
     
-        //     // ✅ Submit hone tak popup show karo
-        //     let popup = document.createElement("div");
-        //     popup.innerHTML = "⏳ Submitting your response...";
-        //     popup.style.position = "fixed";
-        //     popup.style.top = "50%";
-        //     popup.style.left = "50%";
-        //     popup.style.transform = "translate(-50%, -50%)";
-        //     popup.style.background = "#000";
-        //     popup.style.color = "#fff";
-        //     popup.style.padding = "20px";
-        //     popup.style.borderRadius = "10px";
-        //     popup.style.zIndex = "1000";
-        //     document.body.appendChild(popup);
+            let storyLines = [
+                "Ek baar ki baat hai, do dost the jo alag-alag jagah rehte the,", 
+                "par unki dosti ekdum solid thi, Bina roz baat kiye bhi,ek dusre ko samajhne wale dost",
+                "Holi ka tyohar aaya, aur dono ke mann me ek hi sawaal", 
+                "Is baar Holi pe kuch special hoga ya sirf messages exchange honge?",
+                "Ek dost ne socha , Agar saath nahi khel sakte, toh kya Holi ka maza kam ho jayega?",
+                "Nahi! Kyunki Holi sirf rang lagane ka nahi, yaadon ka tyohar bhi hai",
+                "Phir ek dost ne ek chhota sa surprise plan kiya",
+                "Koi rang, koi pichkari nahi… bas ek chhota sa gesture jo yaad rahe",
+                "Ek surprise jo virtual ho, par dil se connected ho",
+                "Jab usne woh surprise bheja, toh pehle toh dusra dost Yeh kya hai? soch kar confuse ho gaya",
+                "Par jaise hi usne webpage open kiya",
+                "🎶 Background mai music baj raha tha",
+                "Rang quietly animate ho rahe the",
+                "Aur ek ek karke likhi gayi thi woh yaadein, woh masti, woh dosti",
+                "Ek pal ke liye sab kuch ruk gaya",
+                "Ek dum se woh Holi yaad aayi… woh rang bharne wali masti", 
+                "woh hassi, woh chhoti-chhoti taang kheechna",
+                "Aur us din, bina kisi rang ke bhi, dosti ke asli rang mehsoos ho rahe the",
+                "Holi toh har saal aati hai, par kuch yaadein hamesha ke liye rehti hain 💖🎭"
+            ];
     
-        //     fetch("https://formsubmit.co/jainparv1106@gmail.com", {  
-        //         method: "POST",
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({
-        //             name: "shreya's Reply",
-        //             message: reply
-        //         })
-        //     }).then(response => {
-        //         document.body.removeChild(popup); // ✅ Popup hatao jab submit ho jaye
-        //         alert("✅ Reply Sent!");
-        //     }).catch(error => {
-        //         document.body.removeChild(popup); // ✅ Agar error aaye toh bhi popup hatao
-        //         alert("❌ Error sending reply!");
-        //     });
-            
-        // }
-        function showResponseMessage(event) {
-    alert("✅ Submitting response... Please wait!");
-    setTimeout(() => {
-        alert("🎉 Reply Sent Successfully!");
-    }, 2000); // 2 second ke baad confirmation dikhayega
-}
+            for (let i = 0; i < storyLines.length; i++) {
+                setTimeout(() => {
+                    document.getElementById(`storyLine${i + 1}`).innerText = storyLines[i];
+                }, i * 1000); // ✅ Ek-ek karke lines add hongi (1 sec gap)
+            }
+        }
+    
+        function showFavThings() {
+            document.getElementById("favThingsSection").style.display = "block"; // ✅ 5 Cheezein dikhega
+        }
+    
     </script>
+    
 <!-- ✅ Extra Space for Scrolling -->
 <div class="spacer"></div>
 <!-- ✅ Footer Section -->
