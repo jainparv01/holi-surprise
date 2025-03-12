@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holi Surprise for You!</title>
+    <style>
+        /* ✅ Holi Color Explosion Background */
+        body {
+            background: linear-gradient(45deg, #ff0000, #ffa500, #ffff00, #008000, #0000ff, #4b0082, #ee82ee);
+            background-size: 400% 400%;
+            animation: gradientBG 5s ease infinite;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .spacer {
+    height: 750px; /* ✅ Extra height for scrolling */
+    width: 100%;
+    background: transparent;
+}
+        /* ✅ Glowing Header Text */
+        .header {
+            font-size: 50px;
+            color: white;
+            text-shadow: 0 0 10px #ffffff, 0 0 20px #ff5733, 0 0 30px #ff0000;
+            padding: 20px 0;
+            width: 100%;
+            position: relative;
+            font-weight: bold;
+            animation: glow 1.5s infinite alternate;
+        }
+        .footer {
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    width: 100%;
+    position: relative; /* Ensure it stays at the bottom */
+    margin-top: auto; /* Space from the last content */
+}
+
+
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff5733, 0 0 30px #ff9068; }
+            100% { text-shadow: 0 0 15px #ff5733, 0 0 25px #ff0000, 0 0 35px #ff4500; }
+        }
+
+        #name {
+            font-size: 40px;
+            color: yellow;
+            font-weight: bold;
+        }
+
+        .container {
+            min-height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .hidden-message {
+            display: none;
+            font-size: 24px;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            margin-top: 10px;
+            line-height: 1.8;
+            text-align: center;
+            background: linear-gradient(-45deg, #ff5733, #ffc107, #28a745, #ff69b4, #00a8ff);
+            background-size: 300% 300%;
+            animation: colorBG 5s ease infinite;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes colorBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .button {
+            background: #ff6600;
+            color: white;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #cc5200;
+            transform: scale(1.1);
+        }
+
+        .line {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        /* ✅ Secret Reply Box */
+        .reply-box {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .reply-box input {
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid #ff5733;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .reply-box button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .reply-box button:hover {
+            background: #218838;
+        }
+
+        .secret-reply {
+            display: none;
+            font-size: 22px;
+            color: #ffeb3b;
+            font-weight: bold;
+            margin-top: 20px;
+}
+        /* ✅ Hidden Video Container (Visible Only on Scroll) */
+        .video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    opacity: 0;  /* Initially hidden */
+    display: none; /* ✅ Hide it until scrolling */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade-in effect */
+}
+
+
+.video-container iframe {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/* ✅ Dark Overlay for Readability */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+}
+
+@media screen and (max-width: 768px) {
+    .hidden-message, .holi-story, .fav-things {
+        font-size: 14px; /* Aur thoda chhota text */
+        padding: 10px; /* Aur kam padding */
+        width: 95%; /* Box ki width badha di taaki aur space mile */
+        max-width: 100%; /* Ensure karega ki box full width tak expand ho sake */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal; /* Ensure karega ki text wrap ho jaye */
+    }
+
+    .header {
+        font-size: 30px; /* Chhoti screen ke liye text size adjust */
+        padding: 10px 0;
+    }
+
+    .container {
+        min-height: auto;
+        padding: 10px;
+    }
+
+    /* .hidden-message {
+        font-size: 18px;
+        padding: 20px;
+        width: 95%;
+    } */
+
+    .button {
+        font-size: 16px;
+        padding: 12px 20px;
+    }
+
+    .reply-box input {
+        font-size: 16px;
+        width: 90%;
+    }
+
+    .reply-box button {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .footer {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .video-container iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9; /* Mobile par aspect ratio maintain karega */
+    }
+}
+
+
+    </style>
+</head>
+<body onload="autoPlayMusic(); createBalloons();"> 
+
+    <!-- ✅ Background Video (Initially Hidden) -->
+<div class="video-container" id="videoBG">
+    <video autoplay muted loop id="bgVideo">
+        <source src="https://github.com/jainparv01/video-bg/raw/refs/heads/main/Holi%20background%20video%20effects%20%EF%BD%9C%20Holi%20color%20overlay%20effect%20black%20screen.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<!-- ✅ Dark Overlay -->
+<div class="overlay"></div>
+
+
+    <div class="header">
+        🎊 Happy Holi <span id="name">Shreya</span> 🎊
+    </div>
+
+    <audio id="holiMusic" autoplay>
+        <source src="https://github.com/jainparv01/holi-music/raw/refs/heads/main/Instrumental%20Holi%20Dj%20Mashup%20Song%20%20DJ%20Holi%20Song%20%20Holi%20%202022%20%20Instrumental%20Music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="container">
+        <button class="button" id="surpriseBtn" onclick="showMessage();">click here</button>
+        <div class="hidden-message" id="message">
+            <span class="line" id="line1"></span><br>
+            <span class="line" id="line2"></span><br>
+            <span class="line" id="line3"></span><br>
+            <span class="line" id="line4"></span><br>
+            <span class="line" id="line5"></span><br>
+            <span class="line" id="line6"></span><br>
+            <span class="line" id="line7"></span><br>     
+        </div>
+
+        <!-- ✅ Buttons to Reveal Story & 5 Cheezein -->
+<div id="revealButtons" style="display: none;">
+    <button class="button" onclick="showStory();">📖 click for the message 💕</button>
+    <button class="button" onclick="showFavThings();">Special things 💖</button>
+</div>
+
+<!-- ✅ Holi Ki Chhoti Kahani -->
+<section class="holi-story hidden-message" id="storySection" style="display: none;">
+    <h2>special story message</h2>
+    <p id="storyLine1"></p>
+    <p id="storyLine2"></p>
+    <p id="storyLine3"></p>
+    <p id="storyLine4"></p>
+    <p id="storyLine5"></p>
+    <p id="storyLine6"></p>
+    <p id="storyLine7"></p>
+    <p id="storyLine8"></p>
+    <p id="storyLine9"></p>
+    <p id="storyLine10"></p>
+    <p id="storyLine11"></p>
+    <p id="storyLine12"></p>
+    <p id="storyLine13"></p>
+    <p id="storyLine14"></p>
+    <p id="storyLine15"></p>
+    <p id="storyLine16"></p>
+    <p id="storyLine17"></p>
+    <p id="storyLine18"></p>
+    <p id="storyLine19"></p>
+</section>
+
+<!-- ✅ kuch Cheezein Jo Mujhe Tumhare Bare Mein Pasand Hai -->
+<section class="fav-things hidden-message" id="favThingsSection" style="display: none;">
+    <h2>🌟 kuch Cheezein Jo Mujhe Tumhare Bare Mein Pasand Hai 💖</h2>
+    <ul>
+        <li>1️⃣Tumhari baatein mujhe kabhi bore nahi karti, hamesha interesting hoti hain!</li>
+        <li>2️⃣Tumhari hasi bhot alag hai, hamesha positive vibes deti hai! 😊</li>
+        <li>3️⃣Agar kabhi din kharab ho toh bhi tumse baat karke sab sahi lagta hai 💖</li>
+    </ul>
+</section>
+
+
+        <!-- ✅ Secret Reply Box -->
+        <div class="reply-box" id="replyBox">
+            <form action="https://formsubmit.co/jainparv1106@gmail.com" method="POST" onsubmit="showResponseMessage(event)">
+                <input type="text" name="message" id="replyInput" placeholder="Dil se jo aaye, likh do...💭" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="secret-reply" id="secretReply"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let music = document.getElementById("holiMusic");
+    
+            // ✅ Fake Click Event Trigger Karo
+            let event = new Event("click");
+            document.body.dispatchEvent(event);
+    
+            // ✅ Autoplay Trick
+            music.play().catch(() => {
+                console.log("Autoplay blocked, waiting for user interaction...");
+                document.addEventListener("click", () => {
+                    music.play();
+                }, { once: true }); // ✅ Sirf ek baar click hone par chale
+            });
+        });
+
+        window.addEventListener("scroll", function () {
+    let videoBG = document.getElementById("videoBG");
+
+    if (window.scrollY > 200) { // ✅ Show after scrolling 200px
+        videoBG.style.opacity = "1";
+        videoBG.style.display = "block";  
+    } else {
+        videoBG.style.opacity = "0";
+        videoBG.style.display = "none";  
+    }
+});
+    
+        function showMessage() {
+            let messageBox = document.getElementById("message");
+            document.getElementById("surpriseBtn").style.display = "none";
+    
+            // ✅ Pehle message box dikhayein
+            messageBox.style.display = "block"; 
+    
+            // ✅ Ab lines ko ek ek karke print karein
+            let lines = [
+                { id: "line1", text: '"Har Holi rang lekar aati hai,' },
+                { id: "line2", text: 'Par iss baar ek alag rang hai, hamari dosti ka.' },
+                { id: "line3", text: 'Door rehkar bhi connection utna hi strong hai,' },
+                { id: "line4", text: 'Jaise gulal hawa me milke bhi apna rang nahi khota' },
+                { id: "line5", text: 'Bas yahi dua hai ki ye dosti bhi' },  
+                { id: "line6", text: 'Holi ke rangon ki tarah kabhi na feeki pade ❤️' },
+                { id: "line7", text: '✨ HAPPY HOLI! ✨' }
+            ];
+    
+            let delay = 500; // Pehle 500ms ka wait
+            lines.forEach((lineObj) => {
+                setTimeout(() => {
+                    typeWriter(lineObj.id, lineObj.text, 35);
+                }, delay);
+                delay += (lineObj.text.length * 35) + 500; // Har line ke baad wait badhao
+            });
+    
+            // ✅ Reply box ko delay ke baad show karein
+            setTimeout(() => {
+                document.getElementById("replyBox").style.display = "block";
+            }, delay + 500);
+
+            setTimeout(() => {
+    document.getElementById("revealButtons").style.display = "block"; // ✅ Dono buttons ek saath dikhana
+}, delay + 1000);
+
+        }
+    
+        function typeWriter(elementId, text, speed) {
+            let element = document.getElementById(elementId);
+            let i = 0;
+            element.innerHTML = ""; // ✅ Fix: Pehle innerHTML clear karo taaki overwrite na ho
+    
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+    
+        function showReply() {
+            let reply = document.getElementById("replyInput").value;
+            document.getElementById("secretReply").innerText = `💌 Your Reply: "${reply}"`;
+            document.getElementById("secretReply").style.display = "block";
+    
+            // ✅ Email pe reply bhejne ka function bhi yaha call kar diya
+            sendReplyToEmail(reply);
+        }
+        function showStory() {
+    document.getElementById("storySection").style.display = "block"; // ✅ Kahani dikhegi
+
+    let storyLines = [
+    "Ek baar ki baat hai, do dost the jo alag-alag jagah rehte the,", 
+    "par unki dosti ekdum solid thi, Bina roz baat kiye bhi,ek dusre ko samajhne wale dost",
+    "Holi ka tyohar aaya, aur dono ke mann me ek hi sawaal", 
+    "Is baar Holi pe kuch special hoga ya sirf messages exchange honge?",
+    "Ek dost ne socha , Agar saath nahi khel sakte, toh kya Holi ka maza kam ho jayega?",
+    "Nahi! Kyunki Holi sirf rang lagane ka nahi, yaadon ka tyohar bhi hai",
+    "Phir ek dost ne ek chhota sa surprise plan kiya",
+    "Koi rang, koi pichkari nahi… bas ek chhota sa gesture jo yaad rahe",
+    "Ek surprise jo virtual ho, par dil se connected ho",
+    "Jab usne woh surprise bheja, toh pehle toh dusra dost Yeh kya hai? soch kar confuse ho gaya",
+    "Par jaise hi usne webpage open kiya",
+    "🎶 Background mai music baj raha tha",
+    "Rang quietly animate ho rahe the",
+    "Aur ek ek karke likhi gayi thi woh yaadein, woh masti, woh dosti",
+    "Ek pal ke liye sab kuch ruk gaya",
+    "Ek dum se woh Holi yaad aayi… woh rang bharne wali masti", 
+    "woh hassi, woh chhoti-chhoti taang kheechna",
+    "Aur us din, bina kisi rang ke bhi, dosti ke asli rang mehsoos ho rahe the",
+    "Holi toh har saal aati hai, par kuch yaadein hamesha ke liye rehti hain 💖🎭"
+    ];
+
+    for (let i = 0; i < storyLines.length; i++) {
+        setTimeout(() => {
+            document.getElementById(`storyLine${i + 1}`).innerText = storyLines[i];
+        }, i * 1000); // ✅ Ek-ek karke lines add hongi (1 sec gap)
+    }
+}
+
+
+function showFavThings() {
+    document.getElementById("favThingsSection").style.display = "block"; // ✅ 5 Cheezein dikhega
+}
+
+    
+        // function sendReplyToEmail(reply) {
+        //     if (reply.trim() === "") {
+        //         alert("Please write something! 😊");
+        //         return;
+        //     }
+    
+        //     // ✅ Submit hone tak popup show karo
+        //     let popup = document.createElement("div");
+        //     popup.innerHTML = "⏳ Submitting your response...";
+        //     popup.style.position = "fixed";
+        //     popup.style.top = "50%";
+        //     popup.style.left = "50%";
+        //     popup.style.transform = "translate(-50%, -50%)";
+        //     popup.style.background = "#000";
+        //     popup.style.color = "#fff";
+        //     popup.style.padding = "20px";
+        //     popup.style.borderRadius = "10px";
+        //     popup.style.zIndex = "1000";
+        //     document.body.appendChild(popup);
+    
+        //     fetch("https://formsubmit.co/jainparv1106@gmail.com", {  
+        //         method: "POST",
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({
+        //             name: "shreya's Reply",
+        //             message: reply
+        //         })
+        //     }).then(response => {
+        //         document.body.removeChild(popup); // ✅ Popup hatao jab submit ho jaye
+        //         alert("✅ Reply Sent!");
+        //     }).catch(error => {
+        //         document.body.removeChild(popup); // ✅ Agar error aaye toh bhi popup hatao
+        //         alert("❌ Error sending reply!");
+        //     });
+            
+        // }
+        function showResponseMessage(event) {
+    alert("✅ Submitting response... Please wait!");
+    setTimeout(() => {
+        alert("🎉 Reply Sent Successfully!");
+    }, 2000); // 2 second ke baad confirmation dikhayega
+}
+    </script>
+<!-- ✅ Extra Space for Scrolling -->
+<div class="spacer"></div>
+<!-- ✅ Footer Section -->
+<footer class="footer">
+Made with ❤️ by <strong>Parv</strong>!
+</footer>    
+</body>
+</html>
